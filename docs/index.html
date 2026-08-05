@@ -3,36 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SableSat · BTC 自托管钱包</title>
-<meta name="description" content="深色、安静、只属于你的 BTC 自托管钱包。多签、安全审计整改、国内网络适配。">
+<title>SableSat · BTC Self-Custody Wallet</title>
+<meta name="description" content="深色、安静、只属于你的 BTC 自托管钱包。多签、安全审计、国内网络适配。Dark, quiet, BTC self-custody wallet. Multisig, audited, China-network ready.">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --bg: #07090D; --surface: #11151C; --border: #1F2630;
     --text: #E8ECEF; --muted: #8A94A6; --accent: #F7931A; --gold: #FFB84D;
   }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; overflow-x: hidden; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif; line-height: 1.6; overflow-x: hidden; }
   .container { max-width: 880px; margin: 0 auto; padding: 0 20px; }
-
-  /* Hero */
+  .lang-switch { position: fixed; top: 16px; right: 16px; z-index: 100; display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 4px; }
+  .lang-switch button { background: none; border: none; color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 700; }
+  .lang-switch button.active { background: var(--accent); color: #000; }
   .hero { padding: 80px 0 60px; text-align: center; }
   .logo { width: 120px; height: 120px; margin: 0 auto 28px; position: relative; }
-  .logo-ring { position: absolute; inset: 0; border: 2px solid var(--accent); border-radius: 28px; transform: rotate(0deg); opacity: 0.4; }
+  .logo-ring { position: absolute; inset: 0; border: 2px solid var(--accent); border-radius: 28px; opacity: 0.4; }
   .logo-ring::before { content: ""; position: absolute; inset: -8px; border: 1px solid var(--gold); border-radius: 36px; transform: rotate(15deg); opacity: 0.3; }
-  .logo-b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 64px; font-weight: 900; color: var(--accent); font-family: "Helvetica Neue", sans-serif; }
+  .logo-b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 64px; font-weight: 900; color: var(--accent); }
   h1 { font-size: 44px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 12px; }
-  .tagline { color: var(--muted); font-size: 18px; max-width: 520px; margin: 0 auto 36px; }
-
-  /* Download buttons */
-  .downloads { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; transition: transform 0.15s, opacity 0.15s; }
+  .tagline { color: var(--muted); font-size: 18px; max-width: 560px; margin: 0 auto 36px; }
+  .downloads { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; transition: transform 0.15s; }
   .btn:active { transform: scale(0.97); }
   .btn-android { background: var(--accent); color: #000; }
   .btn-ios { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
-  .btn.disabled { opacity: 0.5; pointer-events: none; }
   .download-hint { color: var(--muted); font-size: 13px; }
-
-  /* Features */
   .features { padding: 60px 0; }
   .section-title { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 40px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
@@ -40,15 +36,22 @@
   .card-icon { font-size: 28px; margin-bottom: 12px; }
   .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
   .card p { color: var(--muted); font-size: 14px; }
-
-  /* Security */
-  .security { padding: 40px 0 80px; text-align: center; }
+  .security { padding: 40px 0 60px; text-align: center; }
   .badge { display: inline-block; padding: 6px 14px; background: rgba(247,147,26,0.12); color: var(--accent); border-radius: 20px; font-size: 13px; font-weight: 700; margin: 4px; }
   .foot { color: var(--muted); font-size: 13px; text-align: center; padding: 32px 0; border-top: 1px solid var(--border); }
   .foot a { color: var(--muted); }
+  [data-en] { display: none; }
+  body.en [data-zh] { display: none; }
+  body.en [data-en] { display: block; }
+  body.en .tagline[data-en], body.en .download-hint[data-en], body.en .section-title[data-en] { display: block; }
 </style>
 </head>
 <body>
+
+<div class="lang-switch">
+  <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
+  <button id="btn-en" onclick="setLang('en')">EN</button>
+</div>
 
 <section class="hero">
   <div class="container">
@@ -57,53 +60,62 @@
       <div class="logo-b">₿</div>
     </div>
     <h1>SableSat</h1>
-    <p class="tagline">深色、安静、只属于你的 BTC 自托管钱包。<br>多签金库 · 安全审计整改 · 国内网络适配</p>
+    <p class="tagline" data-zh="深色、安静、只属于你的 BTC 自托管钱包。多签金库 · 安全审计整改 · 国内网络适配"></p>
+    <p class="tagline" data-en="Dark, quiet, yours alone. BTC self-custody wallet · Multisig vaults · Security-audited · China-network ready"></p>
 
     <div class="downloads">
       <a class="btn btn-android" href="https://github.com/518aa/sablesat-wallet/releases/download/v1.0.0/app-release.apk">
-        <span>⬇</span> Android APK 下载
+        ⬇ <span data-zh="Android APK 下载"></span><span data-en="Android APK"></span>
       </a>
-      <a class="btn btn-ios disabled" href="#" title="TestFlight 链接即将上线">
-         TestFlight（即将上线）
+      <a class="btn btn-ios" href="https://testflight.apple.com/join/yuebYFtW">
+         TestFlight
       </a>
     </div>
-    <p class="download-hint">Android：下载后开启「未知来源」侧载安装 · iOS：TestFlight 邀请链接即将提供</p>
+    <p class="download-hint" data-zh="Android：下载后开启「未知来源」侧载安装 · iOS：TestFlight 邀请链接"></p>
+    <p class="download-hint" data-en="Android: enable 'Unknown Sources' then install · iOS: join via TestFlight"></p>
   </div>
 </section>
 
 <section class="features">
   <div class="container">
-    <h2 class="section-title">为什么选 SableSat</h2>
+    <h2 class="section-title" data-zh="为什么选 SableSat"></h2>
+    <h2 class="section-title" data-en="Why SableSat"></h2>
     <div class="grid">
       <div class="card">
         <div class="card-icon">🔐</div>
-        <h3>真正的自托管</h3>
-        <p>助记词只在本机，AES-256-GCM 加密 + 硬件 Secure Enclave 门禁。没有服务器能动你的币。</p>
+        <h3 data-zh="真正的自托管"></h3><h3 data-en="True Self-Custody"></h3>
+        <p data-zh="助记词只在本机，AES-256-GCM 加密 + 硬件 Secure Enclave 门禁。没有服务器能动你的币。"></p>
+        <p data-en="Seed stays on-device. AES-256-GCM + hardware Secure Enclave gating. No server can touch your coins."></p>
       </div>
       <div class="card">
         <div class="card-icon">🛡️</div>
-        <h3>多签金库</h3>
-        <p>BIP48 m-of-n 多签，强制备份输出描述符。设备丢失也有恢复路径，不会丢币。</p>
+        <h3 data-zh="多签金库"></h3><h3 data-en="Multisig Vaults"></h3>
+        <p data-zh="BIP48 m-of-n 多签，强制备份输出描述符。设备丢失也有恢复路径。"></p>
+        <p data-en="BIP48 m-of-n multisig with mandatory descriptor backup. Recoverable even if device is lost."></p>
       </div>
       <div class="card">
         <div class="card-icon">⚡</div>
-        <h3>秒级解锁</h3>
-        <p>两级密钥架构（KEK/DEK）+ 原生 KDF 加速，解锁从 1.7 秒降到 ~90 毫秒。</p>
+        <h3 data-zh="秒级解锁"></h3><h3 data-en="Instant Unlock"></h3>
+        <p data-zh="两级密钥架构（KEK/DEK）+ 原生 KDF 加速，解锁从 1.7 秒降到 ~90 毫秒。"></p>
+        <p data-en="Two-tier key architecture + native KDF. Unlock from 1.7s down to ~90ms."></p>
       </div>
       <div class="card">
         <div class="card-icon">🌐</div>
-        <h3>国内网络适配</h3>
-        <p>东京反代 blockchain.info，国内电信网络下余额 / 发送 / 金库稳定可用，无需 VPN。</p>
+        <h3 data-zh="国内网络适配"></h3><h3 data-en="China-Network Ready"></h3>
+        <p data-zh="东京反代 blockchain.info，国内电信网络下余额 / 发送 / 金库稳定可用，无需 VPN。"></p>
+        <p data-en="Tokyo reverse proxy to blockchain.info — balance, send and vaults work on China telecom without VPN."></p>
       </div>
       <div class="card">
         <div class="card-icon">🔬</div>
-        <h3>安全审计整改</h3>
-        <p>30+ 项发现全部修复：熵源加固、胁迫钱包独立助记词、双源交叉验证、PSBT 输出防篡改。</p>
+        <h3 data-zh="安全审计整改"></h3><h3 data-en="Security Audited"></h3>
+        <p data-zh="30+ 项发现全部修复：熵源加固、胁迫钱包独立助记词、双源交叉验证、PSBT 防篡改。"></p>
+        <p data-en="30+ findings fixed: entropy hardening, independent duress seed, cross-source verification, PSBT tamper-proofing."></p>
       </div>
       <div class="card">
         <div class="card-icon">🎯</div>
-        <h3>离线签名</h3>
-        <p>冷钱包完全气隙，BC-UR 动态二维码分片轮播，跨设备协签不触网。</p>
+        <h3 data-zh="离线签名"></h3><h3 data-en="Air-Gapped Signing"></h3>
+        <p data-zh="冷钱包完全气隙，BC-UR 动态二维码分片轮播，跨设备协签不触网。"></p>
+        <p data-en="Cold wallet stays air-gapped. BC-UR animated QR for cross-device cosigning — never touches the network."></p>
       </div>
     </div>
   </div>
@@ -111,23 +123,32 @@
 
 <section class="security">
   <div class="container">
-    <div>
-      <span class="badge">txindex 一致性</span>
-      <span class="badge">RBF 默认</span>
-      <span class="badge">防截屏</span>
-      <span class="badge">越狱检测</span>
-      <span class="badge">PIN 指数退避</span>
-      <span class="badge">feePolicy 分级</span>
-    </div>
+    <span class="badge">txindex 一致性</span>
+    <span class="badge">RBF 默认</span>
+    <span class="badge">防截屏</span>
+    <span class="badge">越狱检测</span>
+    <span class="badge">PIN 指数退避</span>
+    <span class="badge">feePolicy 分级</span>
+    <span class="badge">txid 字节序校正</span>
+    <span class="badge">批量查询抗限流</span>
   </div>
 </section>
 
 <footer class="foot">
   <div class="container">
-    <p>SableSat · 开源 · <a href="https://github.com/518aa/sablesat-wallet">GitHub</a> · 自托管 BTC 钱包</p>
-    <p style="margin-top:8px;">⚠️ 自托管钱包风险自担。请先小额测试，妥善备份助记词与多签描述符。</p>
+    <p>SableSat · <a href="https://github.com/518aa/sablesat-wallet">GitHub</a> · <span data-zh="开源 BTC 自托管钱包"></span><span data-en="Open-source BTC self-custody wallet"></span></p>
+    <p style="margin-top:8px;" data-zh="⚠️ 自托管风险自担。请先小额测试，妥善备份助记词与多签描述符。"></p>
+    <p style="margin-top:8px;" data-en="⚠️ Self-custody = your responsibility. Test with small amounts first. Back up your seed and multisig descriptor."></p>
   </div>
 </footer>
 
+<script>
+function setLang(lang) {
+  document.body.className = lang;
+  document.getElementById('btn-zh').className = lang === 'zh' ? 'active' : '';
+  document.getElementById('btn-en').className = lang === 'en' ? 'active' : '';
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+}
+</script>
 </body>
 </html>
