@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["App.tsx", "src/**/*.test.ts", "scripts/*.ts"],
+  "project": ["src/**/*.{ts,tsx}", "App.tsx"],
+  "ignore": ["ios/**", "android/**", ".expo/**"],
+  "ignoreDependencies": [
+    "expo",
+    "expo-modules-macros-plugin",
+    "@expo/expo-modules-macros-plugin",
+    "react-native-nitro-modules"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "rules": {
+    "exports": "error",
+    "types": "error",
+    "files": "error",
+    "duplicates": "error",
+    "unlisted": "warn",
+    "dependencies": "warn"
+  }
+}
